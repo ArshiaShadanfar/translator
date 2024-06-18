@@ -46,6 +46,7 @@ dependencies:
   flutter_gen: ^5.5.0+1
   flutter_svg: ^2.0.10+1
   timelines: ^0.1.0
+  file_picker: ^8.0.5
 
 
 dev_dependencies:

@@ -1,8 +1,13 @@
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:timelines/timelines.dart';
 import 'package:translator/gen/assets.gen.dart';
 import 'package:translator/vars.dart';
 import 'package:translator/widgets/buttons.dart';
+import 'package:path/path.dart';
 
 class TranslateView extends StatelessWidget {
   const TranslateView({super.key});
@@ -100,139 +105,240 @@ class TranslateView extends StatelessWidget {
                   child: Assets.images.uploadBg.image(fit: BoxFit.cover),
                 ),
                 Container(
-                  padding: EdgeInsets.all(32),
-                    width: 500,
+                    padding: EdgeInsets.all(32),
+                    width: 900,
                     height: 700,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(borderRadiusIn),
                         color: Colors.white,
                         boxShadow: [
-                          BoxShadow(color: Colors.black12, blurRadius: 16)
+                          BoxShadow(color: Colors.black12, blurRadius: 32)
                         ]),
                     child: Column(
                       children: [
-                        
-                        Container(
-                          alignment: Alignment.center,
-                          height: 250,
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(borderRadiusIn),
-                              color: themeData.colorScheme.surface),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 100,
-                                height: 100,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: themeData.colorScheme.primary
-                                        .withAlpha(30)),
-                                child: Icon(
-                                  Icons.file_upload_outlined,
-                                  size: 48,
-                                  color: themeData.colorScheme.primary,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 32,
-                              ),
-                              Text(
-                                'فایل را رها کنید یا کلیک کنید.',
-                                style: themeData.textTheme.bodySmall,
-                              )
-                            ],
-                          ),
+                        PickFileContainer(),
+                        const SizedBox(
+                          height: 32,
                         ),
-                        const SizedBox(height: 32,),
-                        TextField(
-                          style: themeData.textTheme.bodyMedium,
-                          decoration: InputDecoration(
-                              labelText: 'نام شخص را وارد کنید',
-                              labelStyle: themeData.textTheme.bodyMedium!.apply(
-                                  color: themeData.textTheme.bodyMedium!.color!
-                                      .withAlpha(150)),
-                              filled: true,
-                              fillColor: themeData.colorScheme.surface,
-                              enabledBorder: OutlineInputBorder(
-                                  gapPadding: 0,
-                                  borderSide: BorderSide(
-                                      width: 2,
-                                      color: themeData.colorScheme.primary
+                        Column(
+                          children: [
+                            TextField(
+                              style: themeData.textTheme.bodyMedium,
+                              decoration: InputDecoration(
+                                  labelText: 'نام شخص را وارد کنید',
+                                  labelStyle: themeData.textTheme.bodyMedium!.apply(
+                                      color: themeData.textTheme.bodyMedium!.color!
                                           .withAlpha(150)),
-                                  borderRadius:
-                                      BorderRadius.circular(borderRadiusIn)),
-                              focusedBorder: OutlineInputBorder(
-                                  gapPadding: 0,
-                                  borderSide: BorderSide(
-                                      width: 2,
-                                      color: themeData.colorScheme.primary
+                                  filled: true,
+                                  fillColor: themeData.colorScheme.surface,
+                                  enabledBorder: OutlineInputBorder(
+                                      gapPadding: 0,
+                                      borderSide: BorderSide(
+                                          width: 2,
+                                          color: themeData.colorScheme.primary
+                                              .withAlpha(150)),
+                                      borderRadius:
+                                          BorderRadius.circular(borderRadiusIn)),
+                                  focusedBorder: OutlineInputBorder(
+                                      gapPadding: 0,
+                                      borderSide: BorderSide(
+                                          width: 2,
+                                          color: themeData.colorScheme.primary
+                                              .withAlpha(150)),
+                                      borderRadius:
+                                          BorderRadius.circular(borderRadiusIn))),
+                            ),
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            TextField(
+                              style: themeData.textTheme.bodyMedium,
+                              decoration: InputDecoration(
+                                  labelText: 'نام خانوادگی شخص را وارد کنید',
+                                  labelStyle: themeData.textTheme.bodyMedium!.apply(
+                                      color: themeData.textTheme.bodyMedium!.color!
                                           .withAlpha(150)),
-                                  borderRadius:
-                                      BorderRadius.circular(borderRadiusIn))),
+                                  filled: true,
+                                  fillColor: themeData.colorScheme.surface,
+                                  enabledBorder: OutlineInputBorder(
+                                      gapPadding: 0,
+                                      borderSide: BorderSide(
+                                          width: 2,
+                                          color: themeData.colorScheme.primary
+                                              .withAlpha(150)),
+                                      borderRadius:
+                                          BorderRadius.circular(borderRadiusIn)),
+                                  focusedBorder: OutlineInputBorder(
+                                      gapPadding: 0,
+                                      borderSide: BorderSide(
+                                          width: 2,
+                                          color: themeData.colorScheme.primary
+                                              .withAlpha(150)),
+                                      borderRadius:
+                                          BorderRadius.circular(borderRadiusIn))),
+                            ),
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            TextField(
+                              style: themeData.textTheme.bodyMedium,
+                              decoration: InputDecoration(
+                                  labelText: 'نام پدر شخص را وارد کنید',
+                                  labelStyle: themeData.textTheme.bodyMedium!.apply(
+                                      color: themeData.textTheme.bodyMedium!.color!
+                                          .withAlpha(150)),
+                                  filled: true,
+                                  fillColor: themeData.colorScheme.surface,
+                                  enabledBorder: OutlineInputBorder(
+                                      gapPadding: 0,
+                                      borderSide: BorderSide(
+                                          width: 2,
+                                          color: themeData.colorScheme.primary
+                                              .withAlpha(150)),
+                                      borderRadius:
+                                          BorderRadius.circular(borderRadiusIn)),
+                                  focusedBorder: OutlineInputBorder(
+                                      gapPadding: 0,
+                                      borderSide: BorderSide(
+                                          width: 2,
+                                          color: themeData.colorScheme.primary
+                                              .withAlpha(150)),
+                                      borderRadius:
+                                          BorderRadius.circular(borderRadiusIn))),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 24,),
-                        TextField(
-                          style: themeData.textTheme.bodyMedium,
-                          decoration: InputDecoration(
-                              labelText: 'نام خانوادگی شخص را وارد کنید',
-                              labelStyle: themeData.textTheme.bodyMedium!.apply(
-                                  color: themeData.textTheme.bodyMedium!.color!
-                                      .withAlpha(150)),
-                              filled: true,
-                              fillColor: themeData.colorScheme.surface,
-                              enabledBorder: OutlineInputBorder(
-                                  gapPadding: 0,
-                                  borderSide: BorderSide(
-                                      width: 2,
-                                      color: themeData.colorScheme.primary
-                                          .withAlpha(150)),
-                                  borderRadius:
-                                      BorderRadius.circular(borderRadiusIn)),
-                              focusedBorder: OutlineInputBorder(
-                                  gapPadding: 0,
-                                  borderSide: BorderSide(
-                                      width: 2,
-                                      color: themeData.colorScheme.primary
-                                          .withAlpha(150)),
-                                  borderRadius:
-                                      BorderRadius.circular(borderRadiusIn))),
+                        const SizedBox(
+                          height: 48,
                         ),
-                        const SizedBox(height: 24,),
-                        TextField(
-                          style: themeData.textTheme.bodyMedium,
-                          decoration: InputDecoration(
-                              labelText: 'نام پدر شخص را وارد کنید',
-                              labelStyle: themeData.textTheme.bodyMedium!.apply(
-                                  color: themeData.textTheme.bodyMedium!.color!
-                                      .withAlpha(150)),
-                              filled: true,
-                              fillColor: themeData.colorScheme.surface,
-                              enabledBorder: OutlineInputBorder(
-                                  gapPadding: 0,
-                                  borderSide: BorderSide(
-                                      width: 2,
-                                      color: themeData.colorScheme.primary
-                                          .withAlpha(150)),
-                                  borderRadius:
-                                      BorderRadius.circular(borderRadiusIn)),
-                              focusedBorder: OutlineInputBorder(
-                                  gapPadding: 0,
-                                  borderSide: BorderSide(
-                                      width: 2,
-                                      color: themeData.colorScheme.primary
-                                          .withAlpha(150)),
-                                  borderRadius:
-                                      BorderRadius.circular(borderRadiusIn))),
-                        ),
-                        const SizedBox(height: 48,),
-                        MyPrimaryButton(title: 'دریافت ترجمه', onTap: (){}, onHover: (b){}, icon: Icons.translate_rounded,)
+                        MyPrimaryButton(
+                          title: 'دریافت ترجمه',
+                          onTap: () {},
+                          onHover: (b) {},
+                          icon: Icons.translate_rounded,
+                        )
                       ],
                     ))
               ],
             )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PickFileContainer extends StatefulWidget {
+  const PickFileContainer({super.key});
+
+  @override
+  State<PickFileContainer> createState() => _PickFileContainerState();
+}
+
+class _PickFileContainerState extends State<PickFileContainer> {
+  List<Map<String, dynamic>> files = [];
+
+  Future<void> pickFiles() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        allowMultiple: true,
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'png'],
+      );
+
+      if (result != null) {
+        setState(() {
+          files = result.files
+              .map((file) => {
+                    'name': file.name,
+                    'bytes': file.bytes,
+                  })
+              .toList();
+        });
+      } else {
+        // User canceled the picker
+        print('User canceled the picker');
+      }
+    } catch (e) {
+      print('Error picking files: $e');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+    return InkWell(
+      onTap: () {
+        pickFiles();
+      },
+      child: Container(
+        alignment: Alignment.center,
+        height: 250,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: themeData.colorScheme.surface,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            files.isEmpty
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: themeData.colorScheme.primary.withAlpha(30),
+                        ),
+                        child: Icon(
+                          Icons.file_upload_outlined,
+                          size: 48,
+                          color: themeData.colorScheme.primary,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 32,
+                      ),
+                      Text(
+                        'برای آپلود کلیک کنید.',
+                        style: themeData.textTheme.bodySmall,
+                      ),
+                    ],
+                  )
+                : Container(
+                    alignment: Alignment.centerLeft,
+                    height: 250,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: files.length,
+                      itemBuilder: (context, index) {
+                        return Row(
+                          children: [
+                            Container(
+                                width: 250,
+                                child: Text(
+                                  files[index]['name'],
+                                  overflow: TextOverflow.ellipsis,
+                                )),
+                            const SizedBox(width: 8),
+                            Image.memory(
+                              files[index]['bytes'] as Uint8List,
+                              width: 100,
+                              height: 100,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Icon(Icons.broken_image);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
           ],
         ),
       ),

@@ -70,13 +70,17 @@ class $AssetsImagesGen {
   /// File path: assets/images/login.jpg
   AssetGenImage get login => const AssetGenImage('assets/images/login.jpg');
 
+  /// File path: assets/images/uploadBg.jpg
+  AssetGenImage get uploadBg =>
+      const AssetGenImage('assets/images/uploadBg.jpg');
+
   /// File path: assets/images/uploadPageBackground.svg
   SvgGenImage get uploadPageBackground =>
       const SvgGenImage('assets/images/uploadPageBackground.svg');
 
   /// List of all assets
   List<dynamic> get values =>
-      [homePageImage, homeViewImage, login, uploadPageBackground];
+      [homePageImage, homeViewImage, login, uploadBg, uploadPageBackground];
 }
 
 class Assets {

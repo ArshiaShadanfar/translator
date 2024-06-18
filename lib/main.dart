@@ -31,8 +31,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             colorScheme: const ColorScheme.light(
-                primary: Color(0XFF182033),
+                primary: Color(0xff4A55A2),
                 onPrimary: Color(0xffFAFAFA),
+                secondary: Color(0xff7FC7D9),
+                onSecondary: Color(0xff0C0C0C),
                 surface: Color(0xffF4F4F5),
                 onSurface: Color(0xff0C0C0C)),
             // scaffoldBackgroundColor: bgColor,
@@ -136,11 +138,13 @@ class Header extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(32, 16, 32, 8),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Assets.icons.home.svg(),
+                Assets.icons.translate.svg(),
                 const SizedBox(
                   width: 8,
                 ),
@@ -150,54 +154,58 @@ class Header extends StatelessWidget {
                 )
               ],
             ),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              HeaderItem(
-                isActive: selectedIndex == homeIndex ? true : false,
-                onTap: () {
-                  onTap(homeIndex);
-                },
-                activeIconImage: Assets.icons.homeActive.svg(),
-                iconImage: Assets.icons.home.svg(),
-                title: 'خــــــانه',
-              ),
-              const SizedBox(
-                width: 24,
-              ),
-              HeaderItem(
-                isActive: selectedIndex == translateIndex ? true : false,
-                onTap: () {
-                  onTap(translateIndex);
-                },
-                activeIconImage: Assets.icons.translateActive.svg(),
-                iconImage: Assets.icons.translate.svg(),
-                title: 'ترجــــمه',
-              ),
-              const SizedBox(
-                width: 24,
-              ),
-              HeaderItem(
-                isActive: selectedIndex == pricingIndex ? true : false,
-                onTap: () {
-                  onTap(pricingIndex);
-                },
-                activeIconImage: Assets.icons.pricingActive.svg(),
-                iconImage: Assets.icons.pricing.svg(),
-                title: 'تعرفه ها',
-              ),
-              const SizedBox(
-                width: 24,
-              ),
-              HeaderItem(
-                isActive: selectedIndex == aboutIndex ? true : false,
-                onTap: () {
-                  onTap(aboutIndex);
-                },
-                activeIconImage: Assets.icons.aboutActive.svg(),
-                iconImage: Assets.icons.about.svg(),
-                title: 'دربــــاره',
-              ),
-            ]),
             Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  HeaderItem(
+                    isActive: selectedIndex == homeIndex ? true : false,
+                    onTap: () {
+                      onTap(homeIndex);
+                    },
+                    activeIconImage: Assets.icons.homeActive.svg(),
+                    iconImage: Assets.icons.home.svg(),
+                    title: 'خــــــانه',
+                  ),
+                  const SizedBox(
+                    width: 24,
+                  ),
+                  HeaderItem(
+                    isActive: selectedIndex == translateIndex ? true : false,
+                    onTap: () {
+                      onTap(translateIndex);
+                    },
+                    activeIconImage: Assets.icons.translateActive.svg(),
+                    iconImage: Assets.icons.translate.svg(),
+                    title: 'ترجــــمه',
+                  ),
+                  const SizedBox(
+                    width: 24,
+                  ),
+                  HeaderItem(
+                    isActive: selectedIndex == pricingIndex ? true : false,
+                    onTap: () {
+                      onTap(pricingIndex);
+                    },
+                    activeIconImage: Assets.icons.pricingActive.svg(),
+                    iconImage: Assets.icons.pricing.svg(),
+                    title: 'تعرفه ها',
+                  ),
+                  const SizedBox(
+                    width: 24,
+                  ),
+                  HeaderItem(
+                    isActive: selectedIndex == aboutIndex ? true : false,
+                    onTap: () {
+                      onTap(aboutIndex);
+                    },
+                    activeIconImage: Assets.icons.aboutActive.svg(),
+                    iconImage: Assets.icons.about.svg(),
+                    title: 'دربــــاره',
+                  ),
+                ]),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 MyBorderedButton(
                     title: 'ورود', icon: null, onTap: () {}, onHover: (b) {}),
@@ -251,7 +259,11 @@ class HeaderItem extends StatelessWidget {
                   // const SizedBox(
                   //   width: 8,
                   // ),
-                  Text(title, style: themeData.textTheme.bodyMedium),
+                  Text(title,
+                      style: isActive
+                          ? themeData.textTheme.bodyMedium!
+                              .apply(color: themeData.colorScheme.primary)
+                          : themeData.textTheme.bodyMedium),
                 ],
               ),
               const SizedBox(
@@ -259,17 +271,21 @@ class HeaderItem extends StatelessWidget {
               ),
               isActive
                   ? Container(
-                    padding: EdgeInsets.only(top: 8),
+                      padding: EdgeInsets.only(top: 8),
                       width: 80,
-                      height: 5,
+                      height: 2,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(borderRadiusOut),
-                          color: themeData.colorScheme.primary,
+                          gradient: LinearGradient(colors: [
+                            themeData.colorScheme.secondary,
+                            themeData.colorScheme.primary,
+                          ]),
+                          // color: themeData.colorScheme.primary,
                           boxShadow: [
                             BoxShadow(
                                 blurRadius: 16,
-                                color:
-                                    themeData.colorScheme.primary.withAlpha(150))
+                                color: themeData.colorScheme.primary
+                                    .withAlpha(150))
                           ]),
                     )
                   : SizedBox()

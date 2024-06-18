@@ -402,12 +402,10 @@ class HomePage extends StatelessWidget {
               children: [
                 MyPrimaryButton(
                     title: 'ثبت نام',
-                    icon: Assets.icons.home.svg(),
                     onTap: () {},
                     onHover: (b) {}),
                 MyBorderedButton(
                     title: 'ورود',
-                    icon: Assets.icons.home.svg(),
                     onTap: () {},
                     onHover: (b) {}),
               ],

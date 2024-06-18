@@ -11,7 +11,7 @@ class MyPrimaryButton extends StatelessWidget {
       required this.onHover});
 
   final String title;
-  final SvgPicture? icon;
+  final IconData? icon;
   final Function() onTap;
   final Function(bool) onHover;
 
@@ -29,8 +29,9 @@ class MyPrimaryButton extends StatelessWidget {
             color: themeData.colorScheme.primary),
         padding: const EdgeInsets.fromLTRB(32, 4, 32, 4),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            icon ?? SizedBox(),
+            icon != null? Icon(icon, size: 28, color: themeData.colorScheme.onPrimary,) : SizedBox(),
             const SizedBox(
               width: 8,
             ),

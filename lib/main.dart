@@ -295,7 +295,7 @@ class _MainScreenState extends State<MainScreen> {
           Expanded(
             child: Container(
               margin: EdgeInsets.all(16),
-              padding: EdgeInsets.fromLTRB(32, 32, 0, 32),
+              padding: EdgeInsets.all(32),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(borderRadiusOut),
                   color: Colors.white,
@@ -305,7 +305,7 @@ class _MainScreenState extends State<MainScreen> {
               child: PageView(
                 controller: pageController,
                 children: [
-                  const TranslateView(),
+                  TranslateView(),
                   Container(
                     color: Colors.white,
                     child: const Center(

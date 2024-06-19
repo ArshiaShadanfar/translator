@@ -15,226 +15,73 @@ class TranslateView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(36, 32, 36, 0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(borderRadiusIn),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(blurRadius: 16, color: Colors.black12)
-                  ]),
-
-                  
-            )
-
-            // Column(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   crossAxisAlignment: CrossAxisAlignment.start,
-            //   children: [
-            //     Row(
-            //       children: [
-            //         ItemCount(number: '1'),
-            //         const SizedBox(
-            //           width: 16,
-            //         ),
-            //         Text(
-            //           'مرحله اول: عکس های خود را آپلود کنید.',
-            //           style: themeData.textTheme.bodyMedium,
-            //         ),
-            //       ],
-            //     ),
-            //     Row(
-            //       children: [
-            //         const SizedBox(
-            //           width: 25,
-            //         ),
-            //         SizedBox(
-            //           height: 80.0,
-            //           child: DashedLineConnector(
-            //             color: themeData.colorScheme.primary,
-            //             thickness: 2,
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //     Row(
-            //       children: [
-            //         ItemCount(number: '2'),
-            //         const SizedBox(
-            //           width: 16,
-            //         ),
-            //         Text(
-            //           'مرحله دوم: اطلاعات خواسته شده را بنویسید.',
-            //           style: themeData.textTheme.bodyMedium,
-            //         ),
-            //       ],
-            //     ),
-            //     const SizedBox(
-            //       width: 16,
-            //     ),
-            //     Row(
-            //       children: [
-            //         const SizedBox(
-            //           width: 25,
-            //         ),
-            //         SizedBox(
-            //           height: 80.0,
-            //           child: DashedLineConnector(
-            //             thickness: 2,
-            //             color: themeData.colorScheme.primary,
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //     Row(
-            //       children: [
-            //         ItemCount(number: '3'),
-            //         const SizedBox(
-            //           width: 16,
-            //         ),
-            //         Text(
-            //           'مرحله آخر: فایل ترجمه را دانلود کنید.',
-            //           style: themeData.textTheme.bodyMedium,
-            //         ),
-            //       ],
-            //     ),
-            //   ],
-            // ),
-            // Stack(
-            //   alignment: Alignment.center,
-            //   children: [
-            //     SizedBox(
-            //       width: 1000,
-            //       height: 800,
-            //       child: Assets.images.uploadBg.image(fit: BoxFit.cover),
-            //     ),
-            //     Container(
-            //         padding: EdgeInsets.all(32),
-            //         width: 900,
-            //         height: 700,
-            //         decoration: BoxDecoration(
-            //             borderRadius: BorderRadius.circular(borderRadiusIn),
-            //             color: Colors.white,
-            //             boxShadow: [
-            //               BoxShadow(color: Colors.black12, blurRadius: 32)
-            //             ]),
-            //         child: Column(
-            //           children: [
-            //             PickFileContainer(),
-            //             const SizedBox(
-            //               height: 32,
-            //             ),
-            //             Column(
-            //               children: [
-            //                 TextField(
-            //                   style: themeData.textTheme.bodyMedium,
-            //                   decoration: InputDecoration(
-            //                       labelText: 'نام شخص را وارد کنید',
-            //                       labelStyle: themeData.textTheme.bodyMedium!.apply(
-            //                           color: themeData.textTheme.bodyMedium!.color!
-            //                               .withAlpha(150)),
-            //                       filled: true,
-            //                       fillColor: themeData.colorScheme.surface,
-            //                       enabledBorder: OutlineInputBorder(
-            //                           gapPadding: 0,
-            //                           borderSide: BorderSide(
-            //                               width: 2,
-            //                               color: themeData.colorScheme.primary
-            //                                   .withAlpha(150)),
-            //                           borderRadius:
-            //                               BorderRadius.circular(borderRadiusIn)),
-            //                       focusedBorder: OutlineInputBorder(
-            //                           gapPadding: 0,
-            //                           borderSide: BorderSide(
-            //                               width: 2,
-            //                               color: themeData.colorScheme.primary
-            //                                   .withAlpha(150)),
-            //                           borderRadius:
-            //                               BorderRadius.circular(borderRadiusIn))),
-            //                 ),
-            //                 const SizedBox(
-            //                   height: 24,
-            //                 ),
-            //                 TextField(
-            //                   style: themeData.textTheme.bodyMedium,
-            //                   decoration: InputDecoration(
-            //                       labelText: 'نام خانوادگی شخص را وارد کنید',
-            //                       labelStyle: themeData.textTheme.bodyMedium!.apply(
-            //                           color: themeData.textTheme.bodyMedium!.color!
-            //                               .withAlpha(150)),
-            //                       filled: true,
-            //                       fillColor: themeData.colorScheme.surface,
-            //                       enabledBorder: OutlineInputBorder(
-            //                           gapPadding: 0,
-            //                           borderSide: BorderSide(
-            //                               width: 2,
-            //                               color: themeData.colorScheme.primary
-            //                                   .withAlpha(150)),
-            //                           borderRadius:
-            //                               BorderRadius.circular(borderRadiusIn)),
-            //                       focusedBorder: OutlineInputBorder(
-            //                           gapPadding: 0,
-            //                           borderSide: BorderSide(
-            //                               width: 2,
-            //                               color: themeData.colorScheme.primary
-            //                                   .withAlpha(150)),
-            //                           borderRadius:
-            //                               BorderRadius.circular(borderRadiusIn))),
-            //                 ),
-            //                 const SizedBox(
-            //                   height: 24,
-            //                 ),
-            //                 TextField(
-            //                   style: themeData.textTheme.bodyMedium,
-            //                   decoration: InputDecoration(
-            //                       labelText: 'نام پدر شخص را وارد کنید',
-            //                       labelStyle: themeData.textTheme.bodyMedium!.apply(
-            //                           color: themeData.textTheme.bodyMedium!.color!
-            //                               .withAlpha(150)),
-            //                       filled: true,
-            //                       fillColor: themeData.colorScheme.surface,
-            //                       enabledBorder: OutlineInputBorder(
-            //                           gapPadding: 0,
-            //                           borderSide: BorderSide(
-            //                               width: 2,
-            //                               color: themeData.colorScheme.primary
-            //                                   .withAlpha(150)),
-            //                           borderRadius:
-            //                               BorderRadius.circular(borderRadiusIn)),
-            //                       focusedBorder: OutlineInputBorder(
-            //                           gapPadding: 0,
-            //                           borderSide: BorderSide(
-            //                               width: 2,
-            //                               color: themeData.colorScheme.primary
-            //                                   .withAlpha(150)),
-            //                           borderRadius:
-            //                               BorderRadius.circular(borderRadiusIn))),
-            //                 ),
-            //               ],
-            //             ),
-            //             const SizedBox(
-            //               height: 48,
-            //             ),
-            //             MyPrimaryButton(
-            //               title: 'دریافت ترجمه',
-            //               onTap: () {},
-            //               onHover: (b) {},
-            //               icon: Icons.translate_rounded,
-            //             )
-            //           ],
-            //         ))
-            //   ],
-            // )
-          ],
-        ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          PickFileContainer(),
+          const SizedBox(
+            height: 32,
+          ),
+          Column(
+            children: [
+              MyInputField(label: 'نام شخص'),
+              const SizedBox(
+                height: 24,
+              ),
+              MyInputField(label: 'نام خانوادگی شخص'),
+              const SizedBox(
+                height: 24,
+              ),
+              MyInputField(label: 'نام پدر شخص'),
+            ],
+          ),
+          const SizedBox(
+            height: 48,
+          ),
+          MyPrimaryButton(
+            title: 'دریافت ترجمه',
+            onTap: () {},
+            onHover: (b) {},
+            icon: Icons.download_rounded,
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class MyInputField extends StatelessWidget {
+  const MyInputField({
+    super.key,
+    required this.label,
+  });
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+    return TextField(
+      style: themeData.textTheme.bodyMedium,
+      decoration: InputDecoration(
+          labelText: label,
+          labelStyle: themeData.textTheme.bodyMedium!.apply(
+              color: themeData.textTheme.bodyMedium!.color!.withAlpha(150)),
+          filled: true,
+          fillColor: themeData.colorScheme.surface,
+          enabledBorder: OutlineInputBorder(
+              gapPadding: 0,
+              borderSide: BorderSide(
+                  width: 2, color: themeData.colorScheme.primary.withAlpha(20)),
+              borderRadius: BorderRadius.circular(borderRadiusIn)),
+          focusedBorder: OutlineInputBorder(
+              gapPadding: 0,
+              borderSide: BorderSide(
+                  width: 2,
+                  color: themeData.colorScheme.primary.withAlpha(150)),
+              borderRadius: BorderRadius.circular(borderRadiusIn))),
     );
   }
 }
@@ -284,7 +131,7 @@ class _PickFileContainerState extends State<PickFileContainer> {
       },
       child: Container(
         alignment: Alignment.center,
-        height: 250,
+        height: 400,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: themeData.colorScheme.surface,
@@ -321,33 +168,74 @@ class _PickFileContainerState extends State<PickFileContainer> {
                       ),
                     ],
                   )
-                : Container(
-                    alignment: Alignment.centerLeft,
-                    height: 250,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: files.length,
-                      itemBuilder: (context, index) {
-                        return Row(
-                          children: [
-                            Container(
-                                width: 250,
-                                child: Text(
-                                  files[index]['name'],
-                                  overflow: TextOverflow.ellipsis,
-                                )),
-                            const SizedBox(width: 8),
-                            Image.memory(
-                              files[index]['bytes'] as Uint8List,
-                              width: 100,
-                              height: 100,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Icon(Icons.broken_image);
-                              },
+                : SizedBox(
+                    height: 400,
+                    child: Expanded(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: files.length + 1,
+                        itemBuilder: (context, index) {
+                          if (index == 0) {
+                            return Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.info_outline,
+                                    color: themeData.colorScheme.onSurface
+                                        .withAlpha(150),
+                                  ),
+                                  const SizedBox(
+                                    width: 6,
+                                  ),
+                                  Text(
+                                    'برای آپلود دوباره کلیک کنید.',
+                                    style: themeData.textTheme.bodySmall!.apply(
+                                        color: themeData.colorScheme.onSurface
+                                            .withAlpha(160)),
+                                  )
+                                ],
+                              ),
+                            );
+                          }
+                          return Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(borderRadiusOut),
+                              color: Colors.white,
                             ),
-                          ],
-                        );
-                      },
+                            margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                            padding: const EdgeInsets.all(16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.circular(borderRadiusIn),
+                                  child: Image.memory(
+                                    fit: BoxFit.cover,
+                                    files[index - 1]['bytes'] as Uint8List,
+                                    width: 160,
+                                    height: 90,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Icon(Icons.broken_image);
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                SizedBox(
+                                  width: 400,
+                                  child: Text(
+                                    files[index - 1]['name'],
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
           ],

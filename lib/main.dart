@@ -29,9 +29,11 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             colorScheme: const ColorScheme.light(
-                primary: Color(0xff4A55A2),
+                // primary: Color(0xff4A55A2),
+                primary: Color(0xff1A2130),
                 onPrimary: Color(0xffFAFAFA),
-                secondary: Color(0xff7FC7D9),
+                // secondary: Color(0xff7FC7D9),
+                secondary: Color(0xff83B4FF),
                 onSecondary: Color(0xff0C0C0C),
                 surface: Color(0xffF4F4F5),
                 onSurface: Color(0xff0C0C0C)),
@@ -92,7 +94,8 @@ class _MainScreenState extends State<MainScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            padding: EdgeInsets.fromLTRB(16, 32, 32, 32),
+            margin: EdgeInsets.all(16),
+            padding: EdgeInsets.fromLTRB(32, 32, 32, 32),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(borderRadiusOut),
                 color: Colors.white,
@@ -125,7 +128,7 @@ class _MainScreenState extends State<MainScreen> {
                 // showTooltip: false,
                 displayMode: SideMenuDisplayMode.auto,
                 showHamburger: true,
-                hoverColor: themeData.colorScheme.secondary.withAlpha(50),
+                hoverColor: themeData.colorScheme.secondary.withAlpha(20),
                 // selectedHoverColor: themeData.colorScheme.surface,
                 selectedColor: themeData.colorScheme.secondary,
                 selectedTitleTextStyle: themeData.textTheme.bodyMedium!

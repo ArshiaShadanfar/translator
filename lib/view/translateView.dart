@@ -23,204 +23,215 @@ class TranslateView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    ItemCount(number: '1'),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    Text(
-                      'مرحله اول: عکس های خود را آپلود کنید.',
-                      style: themeData.textTheme.bodyMedium,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: 25,
-                    ),
-                    SizedBox(
-                      height: 80.0,
-                      child: DashedLineConnector(
-                        color: themeData.colorScheme.primary,
-                        thickness: 2,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    ItemCount(number: '2'),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    Text(
-                      'مرحله دوم: اطلاعات خواسته شده را بنویسید.',
-                      style: themeData.textTheme.bodyMedium,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: 25,
-                    ),
-                    SizedBox(
-                      height: 80.0,
-                      child: DashedLineConnector(
-                        thickness: 2,
-                        color: themeData.colorScheme.primary,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    ItemCount(number: '3'),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    Text(
-                      'مرحله آخر: فایل ترجمه را دانلود کنید.',
-                      style: themeData.textTheme.bodyMedium,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                SizedBox(
-                  width: 1000,
-                  height: 800,
-                  child: Assets.images.uploadBg.image(fit: BoxFit.cover),
-                ),
-                Container(
-                    padding: EdgeInsets.all(32),
-                    width: 900,
-                    height: 700,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(borderRadiusIn),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(color: Colors.black12, blurRadius: 32)
-                        ]),
-                    child: Column(
-                      children: [
-                        PickFileContainer(),
-                        const SizedBox(
-                          height: 32,
-                        ),
-                        Column(
-                          children: [
-                            TextField(
-                              style: themeData.textTheme.bodyMedium,
-                              decoration: InputDecoration(
-                                  labelText: 'نام شخص را وارد کنید',
-                                  labelStyle: themeData.textTheme.bodyMedium!.apply(
-                                      color: themeData.textTheme.bodyMedium!.color!
-                                          .withAlpha(150)),
-                                  filled: true,
-                                  fillColor: themeData.colorScheme.surface,
-                                  enabledBorder: OutlineInputBorder(
-                                      gapPadding: 0,
-                                      borderSide: BorderSide(
-                                          width: 2,
-                                          color: themeData.colorScheme.primary
-                                              .withAlpha(150)),
-                                      borderRadius:
-                                          BorderRadius.circular(borderRadiusIn)),
-                                  focusedBorder: OutlineInputBorder(
-                                      gapPadding: 0,
-                                      borderSide: BorderSide(
-                                          width: 2,
-                                          color: themeData.colorScheme.primary
-                                              .withAlpha(150)),
-                                      borderRadius:
-                                          BorderRadius.circular(borderRadiusIn))),
-                            ),
-                            const SizedBox(
-                              height: 24,
-                            ),
-                            TextField(
-                              style: themeData.textTheme.bodyMedium,
-                              decoration: InputDecoration(
-                                  labelText: 'نام خانوادگی شخص را وارد کنید',
-                                  labelStyle: themeData.textTheme.bodyMedium!.apply(
-                                      color: themeData.textTheme.bodyMedium!.color!
-                                          .withAlpha(150)),
-                                  filled: true,
-                                  fillColor: themeData.colorScheme.surface,
-                                  enabledBorder: OutlineInputBorder(
-                                      gapPadding: 0,
-                                      borderSide: BorderSide(
-                                          width: 2,
-                                          color: themeData.colorScheme.primary
-                                              .withAlpha(150)),
-                                      borderRadius:
-                                          BorderRadius.circular(borderRadiusIn)),
-                                  focusedBorder: OutlineInputBorder(
-                                      gapPadding: 0,
-                                      borderSide: BorderSide(
-                                          width: 2,
-                                          color: themeData.colorScheme.primary
-                                              .withAlpha(150)),
-                                      borderRadius:
-                                          BorderRadius.circular(borderRadiusIn))),
-                            ),
-                            const SizedBox(
-                              height: 24,
-                            ),
-                            TextField(
-                              style: themeData.textTheme.bodyMedium,
-                              decoration: InputDecoration(
-                                  labelText: 'نام پدر شخص را وارد کنید',
-                                  labelStyle: themeData.textTheme.bodyMedium!.apply(
-                                      color: themeData.textTheme.bodyMedium!.color!
-                                          .withAlpha(150)),
-                                  filled: true,
-                                  fillColor: themeData.colorScheme.surface,
-                                  enabledBorder: OutlineInputBorder(
-                                      gapPadding: 0,
-                                      borderSide: BorderSide(
-                                          width: 2,
-                                          color: themeData.colorScheme.primary
-                                              .withAlpha(150)),
-                                      borderRadius:
-                                          BorderRadius.circular(borderRadiusIn)),
-                                  focusedBorder: OutlineInputBorder(
-                                      gapPadding: 0,
-                                      borderSide: BorderSide(
-                                          width: 2,
-                                          color: themeData.colorScheme.primary
-                                              .withAlpha(150)),
-                                      borderRadius:
-                                          BorderRadius.circular(borderRadiusIn))),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 48,
-                        ),
-                        MyPrimaryButton(
-                          title: 'دریافت ترجمه',
-                          onTap: () {},
-                          onHover: (b) {},
-                          icon: Icons.translate_rounded,
-                        )
-                      ],
-                    ))
-              ],
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(borderRadiusIn),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(blurRadius: 16, color: Colors.black12)
+                  ]),
+
+                  
             )
+
+            // Column(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     Row(
+            //       children: [
+            //         ItemCount(number: '1'),
+            //         const SizedBox(
+            //           width: 16,
+            //         ),
+            //         Text(
+            //           'مرحله اول: عکس های خود را آپلود کنید.',
+            //           style: themeData.textTheme.bodyMedium,
+            //         ),
+            //       ],
+            //     ),
+            //     Row(
+            //       children: [
+            //         const SizedBox(
+            //           width: 25,
+            //         ),
+            //         SizedBox(
+            //           height: 80.0,
+            //           child: DashedLineConnector(
+            //             color: themeData.colorScheme.primary,
+            //             thickness: 2,
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //     Row(
+            //       children: [
+            //         ItemCount(number: '2'),
+            //         const SizedBox(
+            //           width: 16,
+            //         ),
+            //         Text(
+            //           'مرحله دوم: اطلاعات خواسته شده را بنویسید.',
+            //           style: themeData.textTheme.bodyMedium,
+            //         ),
+            //       ],
+            //     ),
+            //     const SizedBox(
+            //       width: 16,
+            //     ),
+            //     Row(
+            //       children: [
+            //         const SizedBox(
+            //           width: 25,
+            //         ),
+            //         SizedBox(
+            //           height: 80.0,
+            //           child: DashedLineConnector(
+            //             thickness: 2,
+            //             color: themeData.colorScheme.primary,
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //     Row(
+            //       children: [
+            //         ItemCount(number: '3'),
+            //         const SizedBox(
+            //           width: 16,
+            //         ),
+            //         Text(
+            //           'مرحله آخر: فایل ترجمه را دانلود کنید.',
+            //           style: themeData.textTheme.bodyMedium,
+            //         ),
+            //       ],
+            //     ),
+            //   ],
+            // ),
+            // Stack(
+            //   alignment: Alignment.center,
+            //   children: [
+            //     SizedBox(
+            //       width: 1000,
+            //       height: 800,
+            //       child: Assets.images.uploadBg.image(fit: BoxFit.cover),
+            //     ),
+            //     Container(
+            //         padding: EdgeInsets.all(32),
+            //         width: 900,
+            //         height: 700,
+            //         decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(borderRadiusIn),
+            //             color: Colors.white,
+            //             boxShadow: [
+            //               BoxShadow(color: Colors.black12, blurRadius: 32)
+            //             ]),
+            //         child: Column(
+            //           children: [
+            //             PickFileContainer(),
+            //             const SizedBox(
+            //               height: 32,
+            //             ),
+            //             Column(
+            //               children: [
+            //                 TextField(
+            //                   style: themeData.textTheme.bodyMedium,
+            //                   decoration: InputDecoration(
+            //                       labelText: 'نام شخص را وارد کنید',
+            //                       labelStyle: themeData.textTheme.bodyMedium!.apply(
+            //                           color: themeData.textTheme.bodyMedium!.color!
+            //                               .withAlpha(150)),
+            //                       filled: true,
+            //                       fillColor: themeData.colorScheme.surface,
+            //                       enabledBorder: OutlineInputBorder(
+            //                           gapPadding: 0,
+            //                           borderSide: BorderSide(
+            //                               width: 2,
+            //                               color: themeData.colorScheme.primary
+            //                                   .withAlpha(150)),
+            //                           borderRadius:
+            //                               BorderRadius.circular(borderRadiusIn)),
+            //                       focusedBorder: OutlineInputBorder(
+            //                           gapPadding: 0,
+            //                           borderSide: BorderSide(
+            //                               width: 2,
+            //                               color: themeData.colorScheme.primary
+            //                                   .withAlpha(150)),
+            //                           borderRadius:
+            //                               BorderRadius.circular(borderRadiusIn))),
+            //                 ),
+            //                 const SizedBox(
+            //                   height: 24,
+            //                 ),
+            //                 TextField(
+            //                   style: themeData.textTheme.bodyMedium,
+            //                   decoration: InputDecoration(
+            //                       labelText: 'نام خانوادگی شخص را وارد کنید',
+            //                       labelStyle: themeData.textTheme.bodyMedium!.apply(
+            //                           color: themeData.textTheme.bodyMedium!.color!
+            //                               .withAlpha(150)),
+            //                       filled: true,
+            //                       fillColor: themeData.colorScheme.surface,
+            //                       enabledBorder: OutlineInputBorder(
+            //                           gapPadding: 0,
+            //                           borderSide: BorderSide(
+            //                               width: 2,
+            //                               color: themeData.colorScheme.primary
+            //                                   .withAlpha(150)),
+            //                           borderRadius:
+            //                               BorderRadius.circular(borderRadiusIn)),
+            //                       focusedBorder: OutlineInputBorder(
+            //                           gapPadding: 0,
+            //                           borderSide: BorderSide(
+            //                               width: 2,
+            //                               color: themeData.colorScheme.primary
+            //                                   .withAlpha(150)),
+            //                           borderRadius:
+            //                               BorderRadius.circular(borderRadiusIn))),
+            //                 ),
+            //                 const SizedBox(
+            //                   height: 24,
+            //                 ),
+            //                 TextField(
+            //                   style: themeData.textTheme.bodyMedium,
+            //                   decoration: InputDecoration(
+            //                       labelText: 'نام پدر شخص را وارد کنید',
+            //                       labelStyle: themeData.textTheme.bodyMedium!.apply(
+            //                           color: themeData.textTheme.bodyMedium!.color!
+            //                               .withAlpha(150)),
+            //                       filled: true,
+            //                       fillColor: themeData.colorScheme.surface,
+            //                       enabledBorder: OutlineInputBorder(
+            //                           gapPadding: 0,
+            //                           borderSide: BorderSide(
+            //                               width: 2,
+            //                               color: themeData.colorScheme.primary
+            //                                   .withAlpha(150)),
+            //                           borderRadius:
+            //                               BorderRadius.circular(borderRadiusIn)),
+            //                       focusedBorder: OutlineInputBorder(
+            //                           gapPadding: 0,
+            //                           borderSide: BorderSide(
+            //                               width: 2,
+            //                               color: themeData.colorScheme.primary
+            //                                   .withAlpha(150)),
+            //                           borderRadius:
+            //                               BorderRadius.circular(borderRadiusIn))),
+            //                 ),
+            //               ],
+            //             ),
+            //             const SizedBox(
+            //               height: 48,
+            //             ),
+            //             MyPrimaryButton(
+            //               title: 'دریافت ترجمه',
+            //               onTap: () {},
+            //               onHover: (b) {},
+            //               icon: Icons.translate_rounded,
+            //             )
+            //           ],
+            //         ))
+            //   ],
+            // )
           ],
         ),
       ),

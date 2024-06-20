@@ -169,18 +169,27 @@ class _TranslateViewState extends State<TranslateView> {
                                                 borderRadius:
                                                     BorderRadius.circular(
                                                         borderRadiusIn),
-                                                child: Image.memory(
-                                                  fit: BoxFit.cover,
-                                                  files[index - 1]['bytes']
-                                                      as Uint8List,
-                                                  width: 160,
-                                                  height: 90,
-                                                  errorBuilder: (context, error,
-                                                      stackTrace) {
-                                                    return Icon(
-                                                        Icons.broken_image);
-                                                  },
-                                                ),
+                                                child: files.isNotEmpty &&
+                                                        files[index - 1]
+                                                                ['bytes'] !=
+                                                            null
+                                                    ? Image.memory(
+                                                        files[index - 1]
+                                                                ['bytes']
+                                                            as Uint8List,
+                                                        fit: BoxFit.cover,
+                                                        width: 160,
+                                                        height: 90,
+                                                        errorBuilder: (context,
+                                                            error, stackTrace) {
+                                                          return Icon(
+                                                              Icons
+                                                                  .broken_image,
+                                                              size: 60);
+                                                        },
+                                                      )
+                                                    : Icon(Icons.broken_image,
+                                                        size: 60),
                                               ),
                                               const SizedBox(width: 8),
                                               SizedBox(

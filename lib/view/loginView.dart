@@ -45,13 +45,15 @@ class LoginView extends StatelessWidget {
                       boxShadow: [BoxShadow(blurRadius: 32, color: Colors.black12)],
                       color: Colors.white),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'خوش آمدید',
                         style: themeData.textTheme.bodyLarge,
                       ),
                       const SizedBox(
-                        height: 24,
+                        height: 32,
                       ),
                       MyInputField(
                           label: 'نام کاربری', controller: usernameController),
@@ -69,7 +71,9 @@ class LoginView extends StatelessWidget {
                               Get.off(const MainScreen());
                             }
                           },
-                          onHover: (b) {})
+                          onHover: (b) {}),
+                      const SizedBox(height: 24,),
+                      MyTextButton(title: 'رمز عبور را فراموش کرده‌اید؟', onTap: (){}, onHover: (b){})
                     ],
                   ),
                 ),

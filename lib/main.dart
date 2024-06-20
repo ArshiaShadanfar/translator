@@ -59,9 +59,9 @@ class MyApp extends StatelessWidget {
                       textStyle:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                   bodyMedium:
-                      GoogleFonts.vazirmatn(textStyle: TextStyle(fontSize: 22)),
-                  bodySmall:
                       GoogleFonts.vazirmatn(textStyle: TextStyle(fontSize: 20)),
+                  bodySmall:
+                      GoogleFonts.vazirmatn(textStyle: TextStyle(fontSize: 18)),
                 )),
         home: const LoginView());
   }
@@ -263,9 +263,9 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 SideMenuItem(
                   title: '     ',
-                  // onTap: (index, _) {
-                  //   sideMenu.changePage(index);
-                  // },
+                  onTap: (index, _) {
+                    Get.off(const LoginView());
+                  },
                   iconWidget: Row(
                     children: [
                       Icon(Icons.exit_to_app_rounded,

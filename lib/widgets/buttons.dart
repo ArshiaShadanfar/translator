@@ -116,6 +116,7 @@ class MyTextButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             icon ?? SizedBox(),
             const SizedBox(

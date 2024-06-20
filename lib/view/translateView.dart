@@ -10,6 +10,7 @@ import 'package:translator/gen/assets.gen.dart';
 import 'package:translator/vars.dart';
 import 'package:translator/widgets/buttons.dart';
 import 'package:path/path.dart';
+import 'package:translator/widgets/fields.dart';
 
 class TranslateView extends StatefulWidget {
   const TranslateView({super.key});
@@ -257,7 +258,9 @@ class _TranslateViewState extends State<TranslateView> {
                       return null;
                     },
                     onChanged: (value) {
-                      // change the fields
+                      setState(() {
+                        docType = value.toString();
+                      });
                     },
                     onSaved: (value) {
                       docType = value.toString();
@@ -286,24 +289,30 @@ class _TranslateViewState extends State<TranslateView> {
                   const SizedBox(
                     height: 24,
                   ),
-                  MyInputField(
-                    label: 'نام شخص',
-                    controller: nameController,
-                  ),
+                  docType == 'کارت ملی' || docType == 'ریز نمرات'
+                      ? MyInputField(
+                          label: 'نام شخص',
+                          controller: nameController,
+                        )
+                      : const SizedBox(),
                   const SizedBox(
                     height: 24,
                   ),
-                  MyInputField(
-                    label: 'نام خانوادگی شخص',
-                    controller: lastNameController,
-                  ),
+                  docType == 'کارت ملی' || docType == 'ریز نمرات'
+                      ? MyInputField(
+                          label: 'نام خانوادگی شخص',
+                          controller: lastNameController,
+                        )
+                      : const SizedBox(),
                   const SizedBox(
                     height: 24,
                   ),
-                  MyInputField(
-                    label: 'نام پدر شخص',
-                    controller: fatherNameController,
-                  ),
+                  docType == 'کارت ملی' || docType == 'ریزنمرات'
+                      ? MyInputField(
+                          label: 'نام پدر شخص',
+                          controller: fatherNameController,
+                        )
+                      : const SizedBox(),
                 ],
               ),
               const SizedBox(
@@ -343,57 +352,6 @@ class _TranslateViewState extends State<TranslateView> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class MyInputField extends StatelessWidget {
-  final String label;
-  final TextEditingController controller;
-
-  const MyInputField({
-    required this.label,
-    required this.controller,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final ThemeData themeData = Theme.of(context);
-    return TextFormField(
-      controller: controller,
-      style: themeData.textTheme.bodyMedium,
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: themeData.textTheme.bodyMedium!.apply(
-            color: themeData.textTheme.bodyMedium!.color!.withAlpha(150)),
-        filled: true,
-        fillColor: themeData.colorScheme.surface,
-        border: OutlineInputBorder(
-            gapPadding: 0,
-            borderSide: BorderSide(
-                width: 2, color: themeData.colorScheme.primary.withAlpha(20)),
-            borderRadius: BorderRadius.circular(borderRadiusIn)),
-        errorBorder: OutlineInputBorder(
-            gapPadding: 0,
-            borderSide: BorderSide(width: 2, color: Colors.red.shade400),
-            borderRadius: BorderRadius.circular(borderRadiusIn)),
-        enabledBorder: OutlineInputBorder(
-            gapPadding: 0,
-            borderSide: BorderSide(
-                width: 2, color: themeData.colorScheme.primary.withAlpha(20)),
-            borderRadius: BorderRadius.circular(borderRadiusIn)),
-        focusedBorder: OutlineInputBorder(
-            gapPadding: 0,
-            borderSide: BorderSide(
-                width: 2, color: themeData.colorScheme.primary.withAlpha(150)),
-            borderRadius: BorderRadius.circular(borderRadiusIn)),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'این فیلد نمی‌تواند خالی باشد';
-        }
-        return null;
-      },
     );
   }
 }

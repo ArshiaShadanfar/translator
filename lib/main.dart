@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:translator/gen/assets.gen.dart';
 import 'package:translator/vars.dart';
+import 'package:translator/view/loginView.dart';
 import 'package:translator/view/translateView.dart';
 
 void main() {
@@ -62,7 +63,7 @@ class MyApp extends StatelessWidget {
                   bodySmall:
                       GoogleFonts.vazirmatn(textStyle: TextStyle(fontSize: 20)),
                 )),
-        home: const MainScreen());
+        home: const LoginView());
   }
 }
 

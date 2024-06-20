@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:timelines/timelines.dart';
@@ -9,8 +10,20 @@ import 'package:translator/vars.dart';
 import 'package:translator/widgets/buttons.dart';
 import 'package:path/path.dart';
 
-class TranslateView extends StatelessWidget {
+class TranslateView extends StatefulWidget {
   const TranslateView({super.key});
+
+  @override
+  State<TranslateView> createState() => _TranslateViewState();
+}
+
+class _TranslateViewState extends State<TranslateView> {
+  final List<String> genderItems = [
+    'کارت ملی',
+    'ریز نمرات',
+  ];
+
+  String? selectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +39,73 @@ class TranslateView extends StatelessWidget {
           ),
           Column(
             children: [
+              DropdownButtonFormField2<String>(
+                isExpanded: true,
+                decoration: InputDecoration(
+                  labelText: 'نوع مدرک',
+                  labelStyle: themeData.textTheme.bodyMedium!.apply(
+                      color:
+                          themeData.textTheme.bodyLarge!.color!.withAlpha(150)),
+                  filled: true,
+                  fillColor: themeData.colorScheme.surface,
+                  enabledBorder: OutlineInputBorder(
+                      gapPadding: 0,
+                      borderSide: BorderSide(
+                          width: 2,
+                          color: themeData.colorScheme.primary.withAlpha(20)),
+                      borderRadius: BorderRadius.circular(borderRadiusIn)),
+                  focusedBorder: OutlineInputBorder(
+                      gapPadding: 0,
+                      borderSide: BorderSide(
+                          width: 2,
+                          color: themeData.colorScheme.primary.withAlpha(150)),
+                      borderRadius: BorderRadius.circular(borderRadiusIn)),
+                  // Add more decoration..
+                ),
+                style: themeData.textTheme.bodyMedium,
+                items: genderItems
+                    .map((item) => DropdownMenuItem<String>(
+                          value: item,
+                          child:
+                              Text(item, style: themeData.textTheme.bodyMedium),
+                        ))
+                    .toList(),
+                validator: (value) {
+                  if (value == null) {
+                    return 'نوع مدرک را انتخاب کنید';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  // change the fields
+                },
+                onSaved: (value) {
+                  selectedValue = value.toString();
+                },
+                buttonStyleData: const ButtonStyleData(
+                  height: 35,
+                  padding: EdgeInsets.only(bottom: 8, right: 8),
+                ),
+                iconStyleData: const IconStyleData(
+                  icon: Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.black45,
+                  ),
+                  iconSize: 24,
+                ),
+                dropdownStyleData: DropdownStyleData(
+                  padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(borderRadiusOut),
+                  ),
+                ),
+                menuItemStyleData: const MenuItemStyleData(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                ),
+              ),
+              const SizedBox(
+                height: 24,
+              ),
               MyInputField(label: 'نام شخص'),
               const SizedBox(
                 height: 24,

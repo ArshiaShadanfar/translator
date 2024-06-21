@@ -264,7 +264,7 @@ class _MainScreenState extends State<MainScreen> {
                 SideMenuItem(
                   title: '     ',
                   onTap: (index, _) {
-                    Get.off(const LoginView());
+                    Get.off(() => const LoginView());
                   },
                   iconWidget: Row(
                     children: [

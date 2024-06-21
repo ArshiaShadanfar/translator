@@ -31,18 +31,27 @@ class LoginView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Assets.icons.translate.svg(width: 50, height: 50),
-                    const SizedBox(width: 16,),
-                    Text('ترنسلیتور', style: themeData.textTheme.displayMedium,)
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Text(
+                      'ترنسلیتور',
+                      style: themeData.textTheme.displayMedium,
+                    )
                   ],
                 ),
-                const SizedBox(height: 64,),
+                const SizedBox(
+                  height: 64,
+                ),
                 Container(
-                  width: 450,
-                  height: 450,
+                  width: 500,
+                  height: 500,
                   padding: EdgeInsets.all(32),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(borderRadiusOut),
-                      boxShadow: [BoxShadow(blurRadius: 32, color: Colors.black12)],
+                      boxShadow: [
+                        BoxShadow(blurRadius: 32, color: Colors.black12)
+                      ],
                       color: Colors.white),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,7 +69,8 @@ class LoginView extends StatelessWidget {
                       const SizedBox(
                         height: 24,
                       ),
-                      MyInputField(label: 'رمز عبور', controller: passwordController),
+                      MyInputField(
+                          label: 'رمز عبور', controller: passwordController),
                       const SizedBox(
                         height: 32,
                       ),
@@ -68,12 +78,17 @@ class LoginView extends StatelessWidget {
                           title: 'ورود',
                           onTap: () {
                             if (_formKey.currentState!.validate()) {
-                              Get.off(const MainScreen());
+                              Get.off(() => const MainScreen());
                             }
                           },
                           onHover: (b) {}),
-                      const SizedBox(height: 24,),
-                      MyTextButton(title: 'رمز عبور را فراموش کرده‌اید؟', onTap: (){}, onHover: (b){})
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      MyTextButton(
+                          title: 'رمز عبور را فراموش کرده‌اید؟',
+                          onTap: () {},
+                          onHover: (b) {})
                     ],
                   ),
                 ),

@@ -117,93 +117,93 @@ class _TranslateViewState extends State<TranslateView> {
                                 )
                               : SizedBox(
                                   height: 400,
-                                  child: Expanded(
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: files.length + 1,
-                                      itemBuilder: (context, index) {
-                                        if (index == 0) {
-                                          return Padding(
-                                            padding: const EdgeInsets.all(16),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  Icons.info_outline,
-                                                  color: themeData
-                                                      .colorScheme.onSurface
-                                                      .withAlpha(150),
-                                                ),
-                                                const SizedBox(
-                                                  width: 6,
-                                                ),
-                                                Text(
-                                                  'برای آپلود دوباره کلیک کنید.',
-                                                  style: themeData
-                                                      .textTheme.bodySmall!
-                                                      .apply(
-                                                          color: themeData
-                                                              .colorScheme
-                                                              .onSurface
-                                                              .withAlpha(160)),
-                                                )
-                                              ],
-                                            ),
-                                          );
-                                        }
-                                        return Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                                borderRadiusOut),
-                                            color: Colors.white,
-                                          ),
-                                          margin:
-                                              EdgeInsets.fromLTRB(16, 8, 16, 8),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        Padding(
                                           padding: const EdgeInsets.all(16),
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
+                                                MainAxisAlignment.center,
                                             children: [
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        borderRadiusIn),
-                                                child: files.isNotEmpty &&
-                                                        files[index - 1]
-                                                                ['bytes'] !=
-                                                            null
-                                                    ? Image.memory(
-                                                        files[index - 1]
-                                                                ['bytes']
-                                                            as Uint8List,
-                                                        fit: BoxFit.cover,
-                                                        width: 160,
-                                                        height: 90,
-                                                        errorBuilder: (context,
-                                                            error, stackTrace) {
-                                                          return Icon(
-                                                              Icons
-                                                                  .broken_image,
-                                                              size: 60);
-                                                        },
-                                                      )
-                                                    : Icon(Icons.broken_image,
-                                                        size: 60),
+                                              Icon(
+                                                Icons.info_outline,
+                                                color: themeData
+                                                    .colorScheme.onSurface
+                                                    .withAlpha(150),
                                               ),
-                                              const SizedBox(width: 8),
-                                              SizedBox(
-                                                width: 400,
-                                                child: Text(
-                                                  files[index - 1]['name'],
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
+                                              const SizedBox(
+                                                width: 6,
                                               ),
+                                              Text(
+                                                'برای آپلود دوباره کلیک کنید.',
+                                                style: themeData
+                                                    .textTheme.bodySmall!
+                                                    .apply(
+                                                        color: themeData
+                                                            .colorScheme
+                                                            .onSurface
+                                                            .withAlpha(160)),
+                                              )
                                             ],
                                           ),
-                                        );
-                                      },
+                                        ),
+                                        Wrap(
+                                            runSpacing: 16,
+                                            spacing: 16,
+                                            children: List.generate(
+                                              files.length,
+                                              (index) => Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  ClipRRect(
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            borderRadiusIn),
+                                                    child: files.isNotEmpty &&
+                                                            files[index]
+                                                                    ['bytes'] !=
+                                                                null
+                                                        ? Image.memory(
+                                                            files[index]
+                                                                    ['bytes']
+                                                                as Uint8List,
+                                                            fit: BoxFit.cover,
+                                                            width: 300,
+                                                            height: 200,
+                                                            errorBuilder:
+                                                                (context, error,
+                                                                    stackTrace) {
+                                                              return Icon(
+                                                                  Icons
+                                                                      .broken_image,
+                                                                  size: 60);
+                                                            },
+                                                          )
+                                                        : Icon(
+                                                            Icons.broken_image,
+                                                            size: 60),
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                  SizedBox(
+                                                    width: 300,
+                                                    child: Center(
+                                                      child: Text(
+                                                        files[index]['name'],
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            )),
+                                      ],
                                     ),
                                   ),
                                 ),

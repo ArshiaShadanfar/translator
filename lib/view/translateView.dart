@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:timelines/timelines.dart';
@@ -30,6 +31,9 @@ class _TranslateViewState extends State<TranslateView> {
   TextEditingController nameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController fatherNameController = TextEditingController();
+  TextEditingController birthDayController = TextEditingController();
+  TextEditingController nationalIdController = TextEditingController();
+  TextEditingController serialController = TextEditingController();
   List<Map<String, dynamic>> files = [];
 
   Future<void> pickFiles() async {
@@ -332,11 +336,6 @@ class _TranslateViewState extends State<TranslateView> {
                 onTap: () {
                   // validation images
                   if (files.isEmpty) {
-                    // Get.defaultDialog(
-                    //   backgroundColor: Colors.red.shade300,
-                    //   title: 'خطا',
-                    //   middleText: 'باید عکس ها را آپلود کنید'
-                    // );
                     Get.showSnackbar(GetSnackBar(
                       backgroundColor: Colors.red.shade400,
                       duration: Duration(seconds: 2),
@@ -349,10 +348,94 @@ class _TranslateViewState extends State<TranslateView> {
                     _formKey.currentState!.save();
                     if (docType == 'کارت ملی') {
                       // Handle National ID document
+                      if (files.length > 2) {
+                        Get.showSnackbar(GetSnackBar(
+                          backgroundColor: Colors.red.shade400,
+                          duration: Duration(seconds: 2),
+                          icon: Icon(Icons.error_rounded),
+                          messageText: Text(
+                              'عکس‌های کارت ملی نباید بیشتر از دو عدد باشند.'),
+                        ));
+                        return;
+                      }
+                      nationalIdController.text = '123412341234';
+                      birthDayController.text = '1378-05-25';
+                      serialController.text = '123412341234';
+
+                      Get.dialog(SingleChildScrollView(
+                        child: AlertDialog(
+                          title: Text(
+                            "تایید اطلاعات",
+                            style: themeData.textTheme.bodyLarge,
+                          ),
+                          content: Column(
+                            children: [
+                              Row(
+                                children: List.generate(
+                                  files.length,
+                                  (index) => Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Image.memory(
+                                      files[index]['bytes'] as Uint8List,
+                                      width: 500,
+                                      height: 300,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 32,
+                              ),
+                              MyInputField(
+                                label: 'کد ملی',
+                                controller: nationalIdController,
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              MyInputField(
+                                label: 'تاریخ تولد',
+                                controller: birthDayController,
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              MyInputField(
+                                label: 'سریال شناسنامه',
+                                controller: serialController,
+                              ),
+                              const SizedBox(
+                                height: 32,
+                              ),
+                              Row(
+                                children: [
+                                  MyBorderedButton(
+                                      title: "لغو",
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      onHover: (h) {}),
+                                  const SizedBox(
+                                    width: 16,
+                                  ),
+                                  MyPrimaryButton(
+                                      title: "تایید و ارسال",
+                                      onTap: () {},
+                                      onHover: (h) {}),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ));
                     } else if (docType == 'ریز نمرات') {
                       // Handle Transcripts document
                     }
                   }
+
+                  // print the information
+                  print(files[0].keys);
                 },
                 onHover: (b) {},
                 icon: Icons.download_rounded,
@@ -364,165 +447,6 @@ class _TranslateViewState extends State<TranslateView> {
     );
   }
 }
-
-// class PickFileContainer extends StatefulWidget {
-//   PickFileContainer({super.key, required this.files});
-//   List<Map<String, dynamic>> files;
-
-//   @override
-//   State<PickFileContainer> createState() => _PickFileContainerState();
-// }
-
-// class _PickFileContainerState extends State<PickFileContainer> {
-//   Future<void> pickFiles() async {
-//     try {
-//       FilePickerResult? result = await FilePicker.platform.pickFiles(
-//         allowMultiple: true,
-//         type: FileType.custom,
-//         allowedExtensions: ['jpg', 'png'],
-//       );
-
-//       if (result != null) {
-//         setState(() {
-//           widget.files = result.files
-//               .map((file) => {
-//                     'name': file.name,
-//                     'bytes': file.bytes,
-//                   })
-//               .toList();
-//         });
-//       } else {
-//         // User canceled the picker
-//         print('User canceled the picker');
-//       }
-//     } catch (e) {
-//       print('Error picking files: $e');
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final ThemeData themeData = Theme.of(context);
-//     return InkWell(
-//       onTap: () {
-//         pickFiles();
-//       },
-//       child: Container(
-//         alignment: Alignment.center,
-//         height: 400,
-//         decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(20),
-//           color: themeData.colorScheme.surface,
-//         ),
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           children: [
-//             widget.files.isEmpty
-//                 ? Column(
-//                     crossAxisAlignment: CrossAxisAlignment.center,
-//                     mainAxisAlignment: MainAxisAlignment.center,
-//                     children: [
-//                       Container(
-//                         alignment: Alignment.center,
-//                         width: 100,
-//                         height: 100,
-//                         decoration: BoxDecoration(
-//                           borderRadius: BorderRadius.circular(50),
-//                           color: themeData.colorScheme.primary.withAlpha(30),
-//                         ),
-//                         child: Icon(
-//                           Icons.file_upload_outlined,
-//                           size: 48,
-//                           color: themeData.colorScheme.primary,
-//                         ),
-//                       ),
-//                       const SizedBox(
-//                         height: 32,
-//                       ),
-//                       Text(
-//                         'برای آپلود کلیک کنید.',
-//                         style: themeData.textTheme.bodySmall,
-//                       ),
-//                     ],
-//                   )
-//                 : SizedBox(
-//                     height: 400,
-//                     child: Expanded(
-//                       child: ListView.builder(
-//                         shrinkWrap: true,
-//                         itemCount: widget.files.length + 1,
-//                         itemBuilder: (context, index) {
-//                           if (index == 0) {
-//                             return Padding(
-//                               padding: const EdgeInsets.all(16),
-//                               child: Row(
-//                                 mainAxisAlignment: MainAxisAlignment.center,
-//                                 children: [
-//                                   Icon(
-//                                     Icons.info_outline,
-//                                     color: themeData.colorScheme.onSurface
-//                                         .withAlpha(150),
-//                                   ),
-//                                   const SizedBox(
-//                                     width: 6,
-//                                   ),
-//                                   Text(
-//                                     'برای آپلود دوباره کلیک کنید.',
-//                                     style: themeData.textTheme.bodySmall!.apply(
-//                                         color: themeData.colorScheme.onSurface
-//                                             .withAlpha(160)),
-//                                   )
-//                                 ],
-//                               ),
-//                             );
-//                           }
-//                           return Container(
-//                             decoration: BoxDecoration(
-//                               borderRadius:
-//                                   BorderRadius.circular(borderRadiusOut),
-//                               color: Colors.white,
-//                             ),
-//                             margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
-//                             padding: const EdgeInsets.all(16),
-//                             child: Row(
-//                               mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                               children: [
-//                                 ClipRRect(
-//                                   borderRadius:
-//                                       BorderRadius.circular(borderRadiusIn),
-//                                   child: Image.memory(
-//                                     fit: BoxFit.cover,
-//                                     widget.files[index - 1]['bytes']
-//                                         as Uint8List,
-//                                     width: 160,
-//                                     height: 90,
-//                                     errorBuilder: (context, error, stackTrace) {
-//                                       return Icon(Icons.broken_image);
-//                                     },
-//                                   ),
-//                                 ),
-//                                 const SizedBox(width: 8),
-//                                 SizedBox(
-//                                   width: 400,
-//                                   child: Text(
-//                                     widget.files[index - 1]['name'],
-//                                     overflow: TextOverflow.ellipsis,
-//                                   ),
-//                                 ),
-//                               ],
-//                             ),
-//                           );
-//                         },
-//                       ),
-//                     ),
-//                   ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class ItemCount extends StatelessWidget {
   const ItemCount({super.key, required this.number});

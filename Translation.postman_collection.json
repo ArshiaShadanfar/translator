@@ -1,0 +1,67 @@
+{
+	"info": {
+		"_postman_id": "8c7cb317-3be1-4bc6-a7bc-e83e6fbbab02",
+		"name": "Translation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Process",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\": \"NATIONAL_CARD\",\r\n    \"first_name\": \"aaa\",\r\n    \"last_name\": \"bbb\",\r\n    \"father_name\": \"ccc\",\r\n    \"files\": [\r\n        {\r\n            \"name\": \"example.jpg\",\r\n            \"bytes\": \"\"\r\n        },\r\n        {\r\n            \"name\": \"Capture.jpg\",\r\n            \"bytes\": \"\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/documents/process/",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"documents",
+						"process",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Acknowledge",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\": \"aaa\",\r\n    \"last_name\": \"bbb\",\r\n    \"father_name\": \"ccc\",\r\n    \"id_number\": \"1319908631\",\r\n    \"serial_number\": \"5G30489287\",\r\n    \"expiration_date\": \"1403/02/10\",\r\n    \"dob\": \"1366/04/09\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/documents/acknowledge/",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"documents",
+						"acknowledge",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

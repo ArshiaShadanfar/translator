@@ -82,13 +82,7 @@ class LoginView extends StatelessWidget {
                             }
                           },
                           onHover: (b) {}),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      MyTextButton(
-                          title: 'رمز عبور را فراموش کرده‌اید؟',
-                          onTap: () {},
-                          onHover: (b) {})
+
                     ],
                   ),
                 ),

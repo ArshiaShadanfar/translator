@@ -34,6 +34,7 @@ class _TranslateViewState extends State<TranslateView> {
   TextEditingController birthDayController = TextEditingController();
   TextEditingController nationalIdController = TextEditingController();
   TextEditingController serialController = TextEditingController();
+  TextEditingController expirationDateController = TextEditingController();
   List<Map<String, dynamic>> files = [];
 
   Future<void> pickFiles() async {
@@ -361,6 +362,7 @@ class _TranslateViewState extends State<TranslateView> {
                       nationalIdController.text = '123412341234';
                       birthDayController.text = '1378-05-25';
                       serialController.text = '123412341234';
+                      expirationDateController.text = '1405-05-24';
 
                       Get.dialog(SingleChildScrollView(
                         child: AlertDialog(
@@ -402,6 +404,13 @@ class _TranslateViewState extends State<TranslateView> {
                                 height: 16,
                               ),
                               MyInputField(
+                                label: 'تاریخ انقضا',
+                                controller: birthDayController,
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              MyInputField(
                                 label: 'سریال شناسنامه',
                                 controller: serialController,
                               ),
@@ -410,18 +419,55 @@ class _TranslateViewState extends State<TranslateView> {
                               ),
                               Row(
                                 children: [
-                                  MyBorderedButton(
+                                  MyTextButton(
                                       title: "لغو",
                                       onTap: () {
                                         Navigator.pop(context);
                                       },
                                       onHover: (h) {}),
                                   const SizedBox(
-                                    width: 16,
+                                    width: 32,
                                   ),
                                   MyPrimaryButton(
                                       title: "تایید و ارسال",
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        // show download link to the user
+                                        Get.dialog(SingleChildScrollView(
+                                          child: AlertDialog(
+                                            title: Text(
+                                              "دانلود فایل ترجمه",
+                                              style:
+                                                  themeData.textTheme.bodyLarge,
+                                            ),
+                                            content: Column(
+                                              children: [
+                                                Text(
+                                                  'فایل ترجمه آماده‌ی دانلود است و می‌توانید با زدن روی دکمه‌ی زیر فایل را دانلود کنید.',
+                                                  style: themeData
+                                                      .textTheme.bodyMedium,
+                                                ),
+                                                const SizedBox(
+                                                  height: 24,
+                                                ),
+                                                MyPrimaryButton(
+                                                    title: 'دانلود فایل',
+                                                    onTap: () {},
+                                                    onHover: (h) {}),
+                                                const SizedBox(
+                                                  height: 24,
+                                                ),
+                                                MyTextButton(
+                                                    title: "بستن",
+                                                    onTap: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    onHover: (h) {}),
+                                              ],
+                                            ),
+                                          ),
+                                        ));
+                                      },
                                       onHover: (h) {}),
                                 ],
                               ),

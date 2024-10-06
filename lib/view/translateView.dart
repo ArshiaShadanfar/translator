@@ -7,6 +7,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:timelines/timelines.dart';
+import 'package:translator/controller/filePickerController.dart';
 import 'package:translator/gen/assets.gen.dart';
 import 'package:translator/vars.dart';
 import 'package:translator/widgets/buttons.dart';
@@ -35,33 +36,7 @@ class _TranslateViewState extends State<TranslateView> {
   TextEditingController nationalIdController = TextEditingController();
   TextEditingController serialController = TextEditingController();
   TextEditingController expirationDateController = TextEditingController();
-  List<Map<String, dynamic>> files = [];
-
-  Future<void> pickFiles() async {
-    try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        allowMultiple: true,
-        type: FileType.custom,
-        allowedExtensions: ['jpg', 'png'],
-      );
-
-      if (result != null) {
-        setState(() {
-          files = result.files
-              .map((file) => {
-                    'name': file.name,
-                    'bytes': file.bytes,
-                  })
-              .toList();
-        });
-      } else {
-        // User canceled the picker
-        print('User canceled the picker');
-      }
-    } catch (e) {
-      print('Error picking files: $e');
-    }
-  }
+  FilePickerController filePickerController = Get.put(FilePickerController());
 
   @override
   Widget build(BuildContext context) {
@@ -76,146 +51,7 @@ class _TranslateViewState extends State<TranslateView> {
             children: [
               Column(
                 children: [
-                  InkWell(
-                    onTap: () {
-                      pickFiles();
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 400,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: themeData.colorScheme.surface,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          files.isEmpty
-                              ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.center,
-                                      width: 100,
-                                      height: 100,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: themeData.colorScheme.primary
-                                            .withAlpha(30),
-                                      ),
-                                      child: Icon(
-                                        Icons.file_upload_outlined,
-                                        size: 48,
-                                        color: themeData.colorScheme.primary,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 32,
-                                    ),
-                                    Text(
-                                      'برای آپلود کلیک کنید.',
-                                      style: themeData.textTheme.bodySmall,
-                                    ),
-                                  ],
-                                )
-                              : SizedBox(
-                                  height: 400,
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(16),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.info_outline,
-                                                color: themeData
-                                                    .colorScheme.onSurface
-                                                    .withAlpha(150),
-                                              ),
-                                              const SizedBox(
-                                                width: 6,
-                                              ),
-                                              Text(
-                                                'برای آپلود دوباره کلیک کنید.',
-                                                style: themeData
-                                                    .textTheme.bodySmall!
-                                                    .apply(
-                                                        color: themeData
-                                                            .colorScheme
-                                                            .onSurface
-                                                            .withAlpha(160)),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Wrap(
-                                            runSpacing: 16,
-                                            spacing: 16,
-                                            children: List.generate(
-                                              files.length,
-                                              (index) => Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  ClipRRect(
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            borderRadiusIn),
-                                                    child: files.isNotEmpty &&
-                                                            files[index]
-                                                                    ['bytes'] !=
-                                                                null
-                                                        ? Image.memory(
-                                                            files[index]
-                                                                    ['bytes']
-                                                                as Uint8List,
-                                                            fit: BoxFit.cover,
-                                                            width: 300,
-                                                            height: 200,
-                                                            errorBuilder:
-                                                                (context, error,
-                                                                    stackTrace) {
-                                                              return Icon(
-                                                                  Icons
-                                                                      .broken_image,
-                                                                  size: 60);
-                                                            },
-                                                          )
-                                                        : Icon(
-                                                            Icons.broken_image,
-                                                            size: 60),
-                                                  ),
-                                                  const SizedBox(height: 8),
-                                                  SizedBox(
-                                                    width: 300,
-                                                    child: Center(
-                                                      child: Text(
-                                                        files[index]['name'],
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  PickFiles(themeData: themeData),
                   const SizedBox(
                     height: 32,
                   ),
@@ -336,7 +172,7 @@ class _TranslateViewState extends State<TranslateView> {
                 title: 'دریافت ترجمه',
                 onTap: () {
                   // validation images
-                  if (files.isEmpty) {
+                  if (filePickerController.files.isEmpty) {
                     Get.showSnackbar(GetSnackBar(
                       backgroundColor: Colors.red.shade400,
                       duration: Duration(seconds: 2),
@@ -349,7 +185,7 @@ class _TranslateViewState extends State<TranslateView> {
                     _formKey.currentState!.save();
                     if (docType == 'کارت ملی') {
                       // Handle National ID document
-                      if (files.length > 2) {
+                      if (filePickerController.files.length > 2) {
                         Get.showSnackbar(GetSnackBar(
                           backgroundColor: Colors.red.shade400,
                           duration: Duration(seconds: 2),
@@ -374,11 +210,12 @@ class _TranslateViewState extends State<TranslateView> {
                             children: [
                               Row(
                                 children: List.generate(
-                                  files.length,
+                                  filePickerController.files.length,
                                   (index) => Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Image.memory(
-                                      files[index]['bytes'] as Uint8List,
+                                      filePickerController.files[index]['bytes']
+                                          as Uint8List,
                                       width: 500,
                                       height: 300,
                                       fit: BoxFit.cover,
@@ -481,7 +318,7 @@ class _TranslateViewState extends State<TranslateView> {
                   }
 
                   // print the information
-                  print(files[0].keys);
+                  print(filePickerController.files[0].keys);
                 },
                 onHover: (b) {},
                 icon: Icons.download_rounded,
@@ -489,6 +326,147 @@ class _TranslateViewState extends State<TranslateView> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class PickFiles extends StatelessWidget {
+  PickFiles({
+    super.key,
+    required this.themeData,
+  });
+
+  final ThemeData themeData;
+  final FilePickerController controller = Get.put(FilePickerController());
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        controller.pickFiles();
+      },
+      child: Container(
+        alignment: Alignment.center,
+        height: 400,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: themeData.colorScheme.surface,
+        ),
+        child: Obx(() {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              controller.files.isEmpty
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: themeData.colorScheme.primary.withAlpha(30),
+                          ),
+                          child: Icon(
+                            Icons.file_upload_outlined,
+                            size: 48,
+                            color: themeData.colorScheme.primary,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                        Text(
+                          'برای آپلود کلیک کنید.',
+                          style: themeData.textTheme.bodySmall,
+                        ),
+                      ],
+                    )
+                  : SizedBox(
+                      height: 400,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.info_outline,
+                                    color: themeData.colorScheme.onSurface
+                                        .withAlpha(150),
+                                  ),
+                                  const SizedBox(
+                                    width: 6,
+                                  ),
+                                  Text(
+                                    'برای آپلود دوباره کلیک کنید.',
+                                    style: themeData.textTheme.bodySmall!.apply(
+                                        color: themeData.colorScheme.onSurface
+                                            .withAlpha(160)),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Wrap(
+                                runSpacing: 16,
+                                spacing: 16,
+                                children: List.generate(
+                                  controller.files.length,
+                                  (index) => Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      ClipRRect(
+                                        clipBehavior: Clip.antiAlias,
+                                        borderRadius: BorderRadius.circular(
+                                            borderRadiusIn),
+                                        child: controller.files.isNotEmpty &&
+                                                controller.files[index]
+                                                        ['bytes'] !=
+                                                    null
+                                            ? Image.memory(
+                                                controller.files[index]['bytes']
+                                                    as Uint8List,
+                                                fit: BoxFit.cover,
+                                                width: 300,
+                                                height: 200,
+                                                errorBuilder: (context, error,
+                                                    stackTrace) {
+                                                  return Icon(
+                                                      Icons.broken_image,
+                                                      size: 60);
+                                                },
+                                              )
+                                            : Icon(Icons.broken_image,
+                                                size: 60),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      SizedBox(
+                                        width: 300,
+                                        child: Center(
+                                          child: Text(
+                                            controller.files[index]['name'],
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                          ],
+                        ),
+                      ),
+                    ),
+            ],
+          );
+        }),
       ),
     );
   }

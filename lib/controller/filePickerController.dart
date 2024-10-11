@@ -1,9 +1,10 @@
+import 'dart:convert';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 
 class FilePickerController extends GetxController {
-  RxList<dynamic> files = [].obs;
+  List<dynamic> files = [].obs;
 
   Future<void> pickFiles() async {
     try {
@@ -16,12 +17,13 @@ class FilePickerController extends GetxController {
       if (result != null) {
         // add files to the list
         files.clear();
-        files.addAll(result.files
-            .map((file) => {
-                  'name': file.name,
-                  'bytes': file.bytes,
-                })
-            .toList());
+        files.addAll(result.files.map((file) {
+          String base64String = base64Encode(file.bytes!);
+          return {
+            'name': file.name,
+            'bytes': base64String,
+          };
+        }).toList());
         print(files);
       } else {
         // User canceled the picker

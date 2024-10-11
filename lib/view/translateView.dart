@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:file_picker/file_picker.dart';
@@ -8,11 +9,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:timelines/timelines.dart';
 import 'package:translator/controller/filePickerController.dart';
+import 'package:translator/controller/national_card_controller.dart';
 import 'package:translator/gen/assets.gen.dart';
 import 'package:translator/vars.dart';
 import 'package:translator/widgets/buttons.dart';
 import 'package:path/path.dart';
 import 'package:translator/widgets/fields.dart';
+
+launchURL(url) async {
+  if (!await launchUrl(Uri.parse(url))) {
+    throw Exception('Could not launch $url');
+  }
+}
 
 class TranslateView extends StatefulWidget {
   const TranslateView({super.key});
@@ -170,8 +178,10 @@ class _TranslateViewState extends State<TranslateView> {
               ),
               MyPrimaryButton(
                 title: 'دریافت ترجمه',
-                onTap: () {
-                  // validation images
+                onTap: () async {
+                  final nationalCardController =
+                      Get.put(NationalCardController());
+
                   if (filePickerController.files.isEmpty) {
                     Get.showSnackbar(GetSnackBar(
                       backgroundColor: Colors.red.shade400,
@@ -179,12 +189,10 @@ class _TranslateViewState extends State<TranslateView> {
                       icon: Icon(Icons.error_rounded),
                       messageText: Text('عکس ها را انتخاب کنید.'),
                     ));
-                  }
-                  // validation the forms
-                  else if (_formKey.currentState!.validate()) {
+                  } else if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
+
                     if (docType == 'کارت ملی') {
-                      // Handle National ID document
                       if (filePickerController.files.length > 2) {
                         Get.showSnackbar(GetSnackBar(
                           backgroundColor: Colors.red.shade400,
@@ -195,134 +203,161 @@ class _TranslateViewState extends State<TranslateView> {
                         ));
                         return;
                       }
-                      nationalIdController.text = '123412341234';
-                      birthDayController.text = '1378-05-25';
-                      serialController.text = '123412341234';
-                      expirationDateController.text = '1405-05-24';
 
-                      Get.dialog(SingleChildScrollView(
-                        child: AlertDialog(
-                          title: Text(
-                            "تایید اطلاعات",
-                            style: themeData.textTheme.bodyLarge,
-                          ),
-                          content: Column(
-                            children: [
-                              Row(
-                                children: List.generate(
-                                  filePickerController.files.length,
-                                  (index) => Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Image.memory(
-                                      filePickerController.files[index]['bytes']
-                                          as Uint8List,
-                                      width: 500,
-                                      height: 300,
-                                      fit: BoxFit.cover,
+                      // نمایش لودینگ
+                      Get.dialog(Center(child: CircularProgressIndicator()),
+                          barrierDismissible: false);
+
+                      // ارسال درخواست به API
+                      var result = await nationalCardController
+                          .processNationalCard(filePickerController.files);
+
+                      // پنهان کردن لودینگ
+                      Get.back();
+
+                      if (result != null) {
+                        // تنظیم مقادیر واقعی به جای مقادیر دستی
+                        nationalIdController.text = result['national_id'];
+                        birthDayController.text = result['birth_date'];
+                        serialController.text = result['serial_number'];
+                        expirationDateController.text =
+                            result['expiration_date'];
+
+                        Get.dialog(SingleChildScrollView(
+                          child: AlertDialog(
+                            title: Text("تایید اطلاعات",
+                                style: themeData.textTheme.bodyLarge),
+                            content: Column(
+                              children: [
+                                Row(
+                                  children: List.generate(
+                                    filePickerController.files.length,
+                                    (index) => Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Image.memory(
+                                        filePickerController.files[index]
+                                            ['bytes'] as Uint8List,
+                                        width: 500,
+                                        height: 300,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 32,
-                              ),
-                              MyInputField(
-                                label: 'کد ملی',
-                                controller: nationalIdController,
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              MyInputField(
-                                label: 'تاریخ تولد',
-                                controller: birthDayController,
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              MyInputField(
-                                label: 'تاریخ انقضا',
-                                controller: birthDayController,
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              MyInputField(
-                                label: 'سریال شناسنامه',
-                                controller: serialController,
-                              ),
-                              const SizedBox(
-                                height: 32,
-                              ),
-                              Row(
-                                children: [
-                                  MyTextButton(
+                                const SizedBox(height: 32),
+                                MyInputField(
+                                    label: 'کد ملی',
+                                    controller: nationalIdController),
+                                const SizedBox(height: 16),
+                                MyInputField(
+                                    label: 'تاریخ تولد',
+                                    controller: birthDayController),
+                                const SizedBox(height: 16),
+                                MyInputField(
+                                    label: 'تاریخ انقضا',
+                                    controller: expirationDateController),
+                                const SizedBox(height: 16),
+                                MyInputField(
+                                    label: 'سریال شناسنامه',
+                                    controller: serialController),
+                                const SizedBox(height: 32),
+                                Row(
+                                  children: [
+                                    MyTextButton(
                                       title: "لغو",
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },
-                                      onHover: (h) {}),
-                                  const SizedBox(
-                                    width: 32,
-                                  ),
-                                  MyPrimaryButton(
+                                      onTap: () => Navigator.pop(context),
+                                      onHover: (h) {},
+                                    ),
+                                    const SizedBox(width: 32),
+                                    MyPrimaryButton(
                                       title: "تایید و ارسال",
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                        // show download link to the user
-                                        Get.dialog(SingleChildScrollView(
-                                          child: AlertDialog(
-                                            title: Text(
-                                              "دانلود فایل ترجمه",
-                                              style:
-                                                  themeData.textTheme.bodyLarge,
-                                            ),
-                                            content: Column(
-                                              children: [
-                                                Text(
-                                                  'فایل ترجمه آماده‌ی دانلود است و می‌توانید با زدن روی دکمه‌ی زیر فایل را دانلود کنید.',
+                                      onTap: () async {
+                                        Navigator.pop(
+                                            context); // بستن دیالوگ قبلی
+
+                                        // نمایش لودینگ
+                                        Get.dialog(
+                                            Center(
+                                                child:
+                                                    CircularProgressIndicator()),
+                                            barrierDismissible: false);
+
+                                        // ارسال درخواست به API دوم برای دریافت لینک دانلود
+                                        String? downloadLink =
+                                            await nationalCardController
+                                                .getTranslatedFileLink(
+                                          firstName: nameController.text,
+                                          lastName: lastNameController.text,
+                                          fatherName: fatherNameController.text,
+                                          nationalId: nationalIdController.text,
+                                          serialNumber: serialController.text,
+                                          expirationDate:
+                                              expirationDateController.text,
+                                          birthDate: birthDayController.text,
+                                        );
+
+                                        // پنهان کردن لودینگ
+                                        Get.back();
+
+                                        if (downloadLink != null) {
+                                          // نمایش لینک دانلود به کاربر
+                                          Get.dialog(SingleChildScrollView(
+                                            child: AlertDialog(
+                                              title: Text("دانلود فایل ترجمه",
                                                   style: themeData
-                                                      .textTheme.bodyMedium,
-                                                ),
-                                                const SizedBox(
-                                                  height: 24,
-                                                ),
-                                                MyPrimaryButton(
+                                                      .textTheme.bodyLarge),
+                                              content: Column(
+                                                children: [
+                                                  Text(
+                                                      'فایل ترجمه آماده‌ی دانلود است و می‌توانید با زدن روی دکمه‌ی زیر فایل را دانلود کنید.'),
+                                                  const SizedBox(height: 24),
+                                                  MyPrimaryButton(
                                                     title: 'دانلود فایل',
-                                                    onTap: () {},
-                                                    onHover: (h) {}),
-                                                const SizedBox(
-                                                  height: 24,
-                                                ),
-                                                MyTextButton(
+                                                    onTap: () {
+                                                      // باز کردن لینک در مرورگر
+                                                      launchURL(downloadLink);
+                                                    },
+                                                    onHover: (h) {},
+                                                  ),
+                                                  const SizedBox(height: 24),
+                                                  MyTextButton(
                                                     title: "بستن",
                                                     onTap: () {
                                                       Navigator.pop(context);
                                                     },
-                                                    onHover: (h) {}),
-                                              ],
+                                                    onHover: (h) {},
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ));
+                                          ));
+                                        } else {
+                                          // نمایش پیام خطا
+                                          Get.showSnackbar(GetSnackBar(
+                                            backgroundColor:
+                                                Colors.red.shade400,
+                                            duration: Duration(seconds: 2),
+                                            icon: Icon(Icons.error_rounded),
+                                            messageText: Text(
+                                                'خطا در دریافت لینک دانلود. لطفاً دوباره تلاش کنید.'),
+                                          ));
+                                        }
                                       },
-                                      onHover: (h) {}),
-                                ],
-                              ),
-                            ],
+                                      onHover: (h) {},
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ));
-                    } else if (docType == 'ریز نمرات') {
-                      // Handle Transcripts document
+                        ));
+                      }
                     }
                   }
-
-                  // print the information
-                  print(filePickerController.files[0].keys);
                 },
                 onHover: (b) {},
                 icon: Icons.download_rounded,
-              ),
+              )
             ],
           ),
         ),

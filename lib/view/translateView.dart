@@ -1,19 +1,14 @@
-import 'dart:io';
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:timelines/timelines.dart';
 import 'package:translator/controller/filePickerController.dart';
 import 'package:translator/controller/national_card_controller.dart';
-import 'package:translator/gen/assets.gen.dart';
 import 'package:translator/vars.dart';
 import 'package:translator/widgets/buttons.dart';
-import 'package:path/path.dart';
 import 'package:translator/widgets/fields.dart';
 
 launchURL(url) async {
@@ -204,19 +199,16 @@ class _TranslateViewState extends State<TranslateView> {
                         return;
                       }
 
-                      // نمایش لودینگ
+                      // showing loading
                       Get.dialog(Center(child: CircularProgressIndicator()),
                           barrierDismissible: false);
 
-                      // ارسال درخواست به API
                       var result = await nationalCardController
                           .processNationalCard(filePickerController.files);
 
-                      // پنهان کردن لودینگ
                       Get.back();
 
                       if (result != null) {
-                        // تنظیم مقادیر واقعی به جای مقادیر دستی
                         nationalIdController.text = result['national_id'];
                         birthDayController.text = result['birth_date'];
                         serialController.text = result['serial_number'];
@@ -235,8 +227,8 @@ class _TranslateViewState extends State<TranslateView> {
                                     (index) => Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Image.memory(
-                                        filePickerController.files[index]
-                                            ['bytes'] as Uint8List,
+                                        base64Decode(filePickerController
+                                            .files[index]['bytes']),
                                         width: 500,
                                         height: 300,
                                         fit: BoxFit.cover,
@@ -467,8 +459,8 @@ class PickFiles extends StatelessWidget {
                                                         ['bytes'] !=
                                                     null
                                             ? Image.memory(
-                                                controller.files[index]['bytes']
-                                                    as Uint8List,
+                                                base64Decode(controller
+                                                    .files[index]['bytes']),
                                                 fit: BoxFit.cover,
                                                 width: 300,
                                                 height: 200,

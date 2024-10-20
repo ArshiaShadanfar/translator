@@ -6,7 +6,8 @@ class MyInputField extends StatelessWidget {
   final String label;
   final TextEditingController controller;
 
-  const MyInputField({super.key, 
+  const MyInputField({
+    super.key,
     required this.label,
     required this.controller,
   });

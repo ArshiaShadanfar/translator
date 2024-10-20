@@ -18,13 +18,12 @@ class FilePickerController extends GetxController {
         // add files to the list
         files.clear();
         files.addAll(result.files.map((file) {
-          String base64String = base64Encode(file.bytes!);
+          String base64String = base64Encode(file.bytes!.toList());
           return {
             'name': file.name,
             'bytes': base64String,
           };
         }).toList());
-        print(files);
       } else {
         // User canceled the picker
         print('User canceled the picker');

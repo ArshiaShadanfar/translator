@@ -202,15 +202,15 @@ class _TranslateViewState extends State<TranslateView> {
                       Get.dialog(Center(child: CircularProgressIndicator()),
                           barrierDismissible: false);
 
-                      var result = await nationalCardController
-                          .processNationalCard(filePickerController.files);
+                      // var result = await nationalCardController
+                      //     .processNationalCard(filePickerController.files);
 
-                      // var result = {
-                      //   'national_id': '12341234',
-                      //   'birth_date': '1403-05-04',
-                      //   'serial_number': '12341234124',
-                      //   'expiration_date': '1403-43-34'
-                      // };
+                      var result = {
+                        'national_id': '12341234',
+                        'birth_date': '1403-05-04',
+                        'serial_number': '12341234124',
+                        'expiration_date': '1403-43-34'
+                      };
 
                       Get.back();
 

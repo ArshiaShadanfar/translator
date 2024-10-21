@@ -7,7 +7,7 @@ class NationalCardController extends GetxController {
   Future<Map<String, dynamic>?> processNationalCard(List<dynamic> files) async {
     isLoading.value = true;
     var dio = Dio();
-    var url = 'http://localhost:8000/documents/process';
+    var url = 'http://localhost:8000/documents/process/';
 
     var body = {'type': 'NATIONAL_CARD', 'files': files};
 
@@ -42,7 +42,7 @@ class NationalCardController extends GetxController {
   }) async {
     isLoading.value = true;
     var dio = Dio();
-    var url = 'http://localhost:8000/documents/get_translate';
+    var url = 'http://localhost:8000/documents/get_translate/';
 
     var body = {
       'first_name': firstName,
@@ -52,6 +52,7 @@ class NationalCardController extends GetxController {
       'serial_number': serialNumber,
       'expiration_date': expirationDate,
       'birth_date': birthDate,
+      'type': 'NATIONAL_CARD'
     };
 
     try {

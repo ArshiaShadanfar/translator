@@ -171,7 +171,7 @@ class _TranslateViewState extends State<TranslateView> {
                 height: 48,
               ),
               MyPrimaryButton(
-                title: 'دریافت ترجمه',
+                title: 'ارسال اطلاعات',
                 onTap: () async {
                   final nationalCardController =
                       Get.put(NationalCardController());
@@ -205,21 +205,36 @@ class _TranslateViewState extends State<TranslateView> {
                       var result = await nationalCardController
                           .processNationalCard(filePickerController.files);
 
+                      // var result = {
+                      //   'national_id': '12341234',
+                      //   'birth_date': '1403-05-04',
+                      //   'serial_number': '12341234124',
+                      //   'expiration_date': '1403-43-34'
+                      // };
+
                       Get.back();
 
                       if (result != null) {
-                        nationalIdController.text = result['national_id'];
-                        birthDayController.text = result['birth_date'];
-                        serialController.text = result['serial_number'];
+                        nationalIdController.text = result['national_id']!;
+                        birthDayController.text = result['birth_date']!;
+                        serialController.text = result['serial_number']!;
                         expirationDateController.text =
-                            result['expiration_date'];
+                            result['expiration_date']!;
 
                         Get.dialog(SingleChildScrollView(
                           child: AlertDialog(
                             title: Text("تایید اطلاعات",
                                 style: themeData.textTheme.bodyLarge),
                             content: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Text(
+                                  'اطلاعات زیر را بررسی کنید و در صورت درستی، دکمه‌ی تایید را بزنید.',
+                                  style: themeData.textTheme.bodyMedium,
+                                ),
+                                const SizedBox(
+                                  height: 32,
+                                ),
                                 Row(
                                   children: List.generate(
                                     filePickerController.files.length,
@@ -236,22 +251,73 @@ class _TranslateViewState extends State<TranslateView> {
                                   ),
                                 ),
                                 const SizedBox(height: 32),
-                                MyInputField(
-                                    label: 'کد ملی',
-                                    controller: nationalIdController),
-                                const SizedBox(height: 16),
-                                MyInputField(
-                                    label: 'تاریخ تولد',
-                                    controller: birthDayController),
-                                const SizedBox(height: 16),
-                                MyInputField(
-                                    label: 'تاریخ انقضا',
-                                    controller: expirationDateController),
-                                const SizedBox(height: 16),
-                                MyInputField(
-                                    label: 'سریال شناسنامه',
-                                    controller: serialController),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: MyInputField(
+                                          label: 'نام',
+                                          controller: nameController),
+                                    ),
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: MyInputField(
+                                          label: 'نام خانوادگی',
+                                          controller: lastNameController),
+                                    ),
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: MyInputField(
+                                          label: 'نام پدر',
+                                          controller: fatherNameController),
+                                    ),
+                                    const SizedBox(width: 16),
+                                  ],
+                                ),
                                 const SizedBox(height: 32),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: MyInputField(
+                                          label: 'کد ملی',
+                                          controller: nationalIdController),
+                                    ),
+                                    const SizedBox(
+                                      width: 16,
+                                    ),
+                                    Expanded(
+                                      child: MyInputField(
+                                          label: 'سریال شناسنامه',
+                                          controller: serialController),
+                                    ),
+                                    const SizedBox(width: 16),
+                                  ],
+                                ),
+                                const SizedBox(height: 32),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: MyInputField(
+                                          label: 'تاریخ تولد',
+                                          controller: birthDayController),
+                                    ),
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: MyInputField(
+                                          label: 'تاریخ انقضا',
+                                          controller: expirationDateController),
+                                    ),
+                                    const SizedBox(width: 16),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 32,
+                                ),
                                 Row(
                                   children: [
                                     MyTextButton(
@@ -286,6 +352,8 @@ class _TranslateViewState extends State<TranslateView> {
                                               expirationDateController.text,
                                           birthDate: birthDayController.text,
                                         );
+                                        // String downloadLink =
+                                        //     'https://google.com';
 
                                         // پنهان کردن لودینگ
                                         Get.back();
@@ -327,7 +395,7 @@ class _TranslateViewState extends State<TranslateView> {
                                           Get.showSnackbar(GetSnackBar(
                                             backgroundColor:
                                                 Colors.red.shade400,
-                                            duration: Duration(seconds: 2),
+                                            duration: Duration(seconds: 4),
                                             icon: Icon(Icons.error_rounded),
                                             messageText: Text(
                                                 'خطا در دریافت لینک دانلود. لطفاً دوباره تلاش کنید.'),
@@ -342,12 +410,21 @@ class _TranslateViewState extends State<TranslateView> {
                             ),
                           ),
                         ));
+                      } else {
+                        // نمایش پیام خطا
+                        Get.showSnackbar(GetSnackBar(
+                          backgroundColor: Colors.red.shade400,
+                          duration: Duration(seconds: 4),
+                          icon: Icon(Icons.error_rounded),
+                          messageText: Text(
+                              'خطا در دریافت پاسخ از سرور. لطفاً دوباره تلاش کنید.'),
+                        ));
                       }
                     }
                   }
                 },
                 onHover: (b) {},
-                icon: Icons.download_rounded,
+                icon: Icons.upload_rounded,
               )
             ],
           ),

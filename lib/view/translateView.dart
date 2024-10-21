@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
